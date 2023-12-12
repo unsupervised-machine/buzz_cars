@@ -1,0 +1,121 @@
+<!-- 
+    -for this to format correctly, it has to be opened through running the Flask App so the db info is retrieved
+     and displayed
+    -this can be made to look prettier if anyone wants to mess with it
+    -the href in the last "back" button needs to be changed to redirect back to the home page
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+
+</head>
+<body class="flex font-sans antialiased text-gray-100 bg-orange-200 p-8 justify-center">
+    
+    <div class="bg-gray-700" >
+        <h1 class="text-3xl font-bold text-white text-center p-4">
+            BuzzCar Reports     
+        </h1>    
+
+        <div class="box p-4">
+            <a href={{url_for('get_part_stats')}} class="bg-teal-700 hover:bg-teal-900
+            text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                <button > Part Statistics Report</button>
+            </a>
+        </div>
+
+        <div class="box p-4">
+            <a href={{url_for('get_price_per_condition')}}  class="bg-teal-700 hover:bg-teal-900
+            text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                <button > Price Per Condition Report</button>
+            </a>
+        </div>
+
+        <div class="box p-4">
+            <a href={{url_for('get_seller_history')}} class="bg-teal-700 hover:bg-teal-900
+            text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                <button > Seller History </button>
+            </a>
+        </div>
+
+        <div class="box p-4">
+            <a href={{url_for('get_avg_time_inventory')}} class="bg-teal-700 hover:bg-teal-900
+            text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                <button > Average Time in Inventory </button>
+            </a>
+        </div>
+
+        <div class="box p-4">
+            <a href={{url_for('get_monthly_sales')}} class="bg-teal-700 hover:bg-teal-900
+            text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                <button > Monthly Sales </button>
+            </a>
+        </div>
+
+        <div class="pt-6 text-white space-y-1 grid grid-cols-2 items-baseline p-4 font-bold"> 
+            <label>Monthly Sales by Year and/or Month</label>
+        </div>
+
+        <form action="/specific_monthly_sales" method = "GET">
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline p-4 place-items-center"> 
+                <label>Year</label>
+                <select name="year" id="year" class="text-black text-center w-2/5" value="{{year}}">
+                    <option value=""></option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                </select>
+            </div>
+
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline p-4 place-items-center"> 
+                <label class="">Month</label>
+                <select name="month" id="month" class="text-black text-center w-2/5" value="{{month}}">
+                    <option value=""></option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            <!-- 
+            <div class="p-2 grid grid-cols-2">
+                <label class="text-white" for="Add"> </label>
+                <input type="Submit" class="bg-teal-700 hover:bg-teal-900
+                text-white text-center font-bold py-2 rounded_full" />
+            </div>
+            -->
+        
+        <div class="box pb-12 p-4">
+            <a href={{url_for('get_specific_monthly_sales')}} class="float-right bg-teal-700 hover:bg-teal-900
+            text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                <button > Submit </button>
+            </a>
+        </div>
+
+        </form>
+
+    </div>
+
+    
+
+    <!-- Button back to reports options page -->
+    <div class="box p-4">
+        <a href={{url_for('search_vehicle')}} class="bg-teal-700 hover:bg-teal-900
+        text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+            <button > Back to Home Page</button>
+        </a>
+    </div>
+
+</body>
+</html>

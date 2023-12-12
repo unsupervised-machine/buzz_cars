@@ -1,0 +1,106 @@
+
+<!-- still need to:
+    - pop up or redirect to page that says "individual customer added"  when form is submitted, and then another to redirect back to the home page 
+    - add button to exit the current page if needed
+    - pop up that says invalid entry if customer already exists or something hasnt been filled out (besides the description)    
+--> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Individual</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="flex font-sans antialiased text-gray-100 bg-orange-200 p-8 justify-center">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} text-red-500	 font-bold p-2 text-xl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="bg-gray-700 p-8" >
+        <!-- title and line-->
+        <h1 class="text-3xl font-bold text-white text-center">
+            Add Individual Customer    
+        </h1>
+
+        <form method="POST" action=""> 
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                <label class="text-white" for="driver_license_id">Drivers License</label>
+                <input required="required" class="text-black text-center" type="text" placeholder="Drivers License" name="driver_license_id">
+            </div>
+    
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                <label class="text-white" for="first_name">First Name</label>
+                <input required="required" class="text-black text-center" type="text" placeholder="First name" name="first_name">
+            </div>
+    
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                <label class="text-white" for="last_name">Last Name</label>
+                <input required="required" class="text-black text-center" type="text" placeholder="Last Name" name="last_name">
+            </div>
+    
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                <label class="text-white" for="phone_number">Phone Number</label>
+                <input required="required" class="text-black text-center" type="text" placeholder="Phone Number" name="phone_number">
+            </div>
+    
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                <label class="text-white" for="email">Email</label>
+                <input required="required" class="text-black text-center" type="text" placeholder="Email" name="email">
+            </div>
+    
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                <label class="text-white" for="street">Street</label>
+                <input required="required" class="text-black text-center" type="text" placeholder="Street" name="street">
+            </div>
+    
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                <label class="text-white" for="city">City</label>
+                <input required="required" class="text-black text-center" type="text" placeholder="City" name="city">
+            </div>
+    
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                <label class="text-white" for="state">State</label>
+                <input required="required" class="text-black text-center" type="text" placeholder="State" name="state">
+            </div>
+    
+            <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                <label class="text-white" for="zip_code">Zip Code</label>
+                <input required="required" class="text-black text-center" type="text" placeholder="Zip Code" name="zip_code">
+            </div>
+
+            <div class="pt-8 pb-9 grid grid-cols-2">
+                <label class="text-white" for="Add"> </label>
+                <input type="Submit" class="bg-teal-700 hover:bg-teal-900
+                text-white text-center font-bold py-2 px-4 rounded_full" />
+            </div>
+            
+        </form>
+    </div>
+
+    <div class="box p-8 ">
+        <a href={{url_for('add_vehicle')}} class="bg-teal-700 hover:bg-teal-900
+        text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+            <button > Back to Add Vehicle </button>
+        </a>
+    </div>
+
+    <div class="box p-8 ">
+        <a href={{url_for('search_vehicle')}} class="bg-teal-700 hover:bg-teal-900
+        text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+            <button > Back to Home Page </button>
+        </a>
+    </div>
+</body>
+</html>

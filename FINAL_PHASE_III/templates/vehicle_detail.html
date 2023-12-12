@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Details | BuzzCars</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+    <style>
+        .partsList{
+            max-height:300px;
+            overflow-y:auto;
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover bg-orange-200">
+    <div class="max-w-3xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
+        <div class="w-full lg:w-full rounded-lg lg:rounded-l-lg lg:rounded-r-lg shadow-2xl bg-gray-700 opacity-100 mx-6 lg:mx-0">
+            <div class="p-4 md:p-12">
+                <h1 class="text-3xl font-bold text-white pt-8 lg:pt-0">Vehicle Details</h1>
+                <div class="mx-auto lg:mx-0 w-5/5 pt-3 border-b-2 border-white opacity-50"></div>
+
+                <div class="pt-6 text-white">
+                    <div class ="mb-4">
+                        <label class= "font-bold">Vin:</label>
+                        <span id="vin" class="ml-2">{{data.vin}}</span>
+                        <script type="text/javascript"> 
+                            var vin_number = {{data.vin|tojson}} 
+                        </script>
+                    </div>
+                    <div class="mb-4">
+                        <label class="font-bold">Vehicle Type:</label>
+                        <span id="vehicleType" class="ml-2">{{data.vehicleType}}</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="font-bold">Manufacturer:</label>
+                        <span id="manufacturer" class="ml-2">{{data.manufacturer}}</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="font-bold">Model Year:</label>
+                        <span id="modelYear" class="ml-2">{{data.modelYear}}</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="font-bold">Fuel Type:</label>
+                        <span id="fuelType" class="ml-2">{{data.fuelType}}</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="font-bold">Color(s):</label>
+                        <span id="colors" class="ml-2">{{data.colors}}</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="font-bold">Mileage:</label>
+                        <span id="mileage" class="ml-2">{{data.mileage}}</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="font-bold">Sales Price:</label>
+                        <span id="salesPrice" class="ml-2">${{data.salesPrice}}</span>
+                    </div>
+                    <div class="mx-auto lg:mx-0 w-5/5 pt-3 border-b-2 border-white opacity-50"></div>
+
+                    <!-- Inventory Clerk-specific details -->
+                    <div class = "inventoryClerkContent hidden mb-4">
+                        <div class = "mb-4">
+                            <label class="font-bold">Original Purchase Price:</label>
+                            <span class ="purchasePrice ml-2"> {{data.originalPrice}}</span>    
+                        </div>
+                        
+                        <div>
+                            <label class="font-bold">Total Parts Cost:</label>
+                            <span class="totalPartCost ml-2">{{data.totalPartPrice}}</span> 
+                        </div>
+                        <h2 class="text-2xl font-semibold text-white mt-4">Parts Information</h2>
+                        <div class="partsList mt-4">
+                            <!-- Parts list will be populated here -->
+                        </div>
+                        <div>
+                                                    <!-- chnged this to self from _blank-->
+
+                            <a onclick="part_order_url()" target="_self" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Parts Order</a>
+                        </div>
+                    </div>
+
+                    <!-- Sales Person view -->
+                    <div class = "salesPersonContent hidden mb-4">
+                        <!-- chnged this to self from _blank-->
+                        <a onclick="sell_vehicle_url()" target = "_self" class = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outloine">Sell Car</a>
+                    </div>
+                    
+                    <!-- Manger view -->
+
+                    <div class = "managerContent hidden mb-4">
+                        <h4 class="font-bold text-white mt-4">Seller Information:</h4>
+                        <div class = "sellerInfoContainer mb-4">
+                            <!-- sellerinfo populate here-->
+                        </div>    
+
+                        <div class ="mb-4">
+                            <label class="font-bold">Inventory Clerk:</label>
+                            <span class="inventoryClerkName">{{data.clerk_name}}</span>
+                        </div>
+                        <div class ="mb-4"><label class="font-bold">Original Purchase Price:</label>
+                            <span class="purchasePrice ml-2">{{data.originalPrice}}</span>    
+                        </div>
+                        <div class ="mb-4"><label class="font-bold">Purchase Date:</label>
+                            <span class="purchaseDate ml-2">{{data.purchase_date}}</span>
+                        </div>
+                        
+                        <div class = "mb-4"><label class="font-bold">Total Parts Cost:</label>
+                                <span class="totalPartCost ml-2">{{data.totalPartPrice}}</span> 
+                        </div>
+
+                        <div class="buyerInformation hidden">
+                            <h2 class="text-2xl font-semibold text-white mt-4">Buyer Information</h2>
+                            <div class="buyerDetails mt-4">
+                                <!-- Buyer information will be displayed here -->
+                            </div>
+                        </div>
+
+                        <h2 class="text-2xl font-semibold text-white mt-4">Parts Information</h2>
+                        <script type="text/javascript"> 
+                            var parts = {{data.parts|tojson}} 
+                        </script>
+                        <div class="partsList mt-4">
+                            <!-- Parts list will be populated here -->
+                        </div>
+
+
+                    </div>
+
+                     <!-- Owner privileged view -->
+                    <div class = "ownerContent hidden mb-4">
+                        <h4 class="font-bold text-white mt-4">Seller Information:</h4>
+                        <div class = "sellerInfoContainer mb-4" id="sellerInfoContainer">
+                            <!-- sellerinfo populate here-->
+                        </div>    
+
+                        <div class ="mb-4">
+                            <label class="font-bold">Inventory Clerk:</label>
+                            <span class="inventoryClerkName">{{data.clerk_name}}</span>
+                        </div>
+                        <div class ="mb-4"><label class="font-bold">Original Purchase Price:</label>
+                            <span class="purchasePrice ml-2">{{data.originalPrice}}</span>    
+                        </div>
+                        <div class ="mb-4"><label class="font-bold">Purchase Date:</label>
+                            <span class="purchaseDate ml-2">{{data.purchase_date}}</span>
+                        </div>
+                        
+                        <div class = "mb-4"><label class="font-bold">Total Parts Cost:</label>
+                                <span class="totalPartCost ml-2">{{data.totalPartPrice}}</span> 
+                        </div>
+                        
+                        <div class="buyerInformation hidden">
+                            <h2 class="text-2xl font-semibold text-white mt-4">Buyer Information</h2>
+                            <div class="buyerDetails mt-4" id="buyerDetails">
+                                <!-- Buyer information will be displayed here -->
+                            </div>
+                        </div>
+
+                        <h2 class="text-2xl font-semibold text-white mt-4">Parts Information</h2>
+                        
+                        <div class="partsList mt-4">
+                            <!-- Parts list will be populated here -->
+                        </div>
+                        <div class = " mb-4">
+                            <a onclick="part_order_url()" id="ownerorder" target="_self" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Parts Order</a>
+                            <a onclick="sell_vehicle_url()" target = "_self" id="ownersell" class = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outloine">Sell Car</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="box p-8">
+                <a href="{{ url_for('search_vehicle') }}" target="_self" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Back to Home Page</a>
+                </a>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    
+    <script>
+        /*function showPartsOrderForm() {
+            document.getElementById('partsOrderForm').style.display = 'block';
+        }*/
+        
+
+        const userRole = document.cookie.split('=')[1].replace(/['"]+/g, ''); // Replace this with actual user role, fetch from Flask
+
+        // Display content based on user role
+        function displayContentBasedOnRole(role) {
+            const ownerContent = document.querySelector('.ownerContent');
+            const managerContent = document.querySelector('.managerContent');
+            const inventoryClerkContent = document.querySelector('.inventoryClerkContent');
+            const salesPersonContent = document.querySelector('.salesPersonContent');
+
+            // Show content based on user role
+            switch (role) {
+                case 'Owner':
+                    ownerContent.classList.remove('hidden');
+                    break;
+                case 'Manager':
+                    managerContent.classList.remove('hidden');
+                    break;
+                case 'Inventory Clerk':
+                    inventoryClerkContent.classList.remove('hidden');
+                    break;
+                case 'Salesperson':
+                    salesPersonContent.classList.remove('hidden');
+                    break;
+                default:
+                    // Handle default case or unauthorized access
+                    break;
+            }
+        }
+
+            // Call the function to display content based on the user's role
+        displayContentBasedOnRole(userRole);
+
+        function getQueryVariable(variable) {
+            const query = window.location.search.substring(1);
+            const vars = query.split("&");
+            for (let i = 0; i < vars.length; i++) {
+                const pair = vars[i].split("=");
+                if (pair[0] === variable) {
+                    return decodeURIComponent(pair[1]);
+                }
+            }
+            return null;
+        }
+
+    const ownerCantSell = {{ data.owner_sell_button | tojson | safe }};
+
+        console.log('first');
+        console.log(ownerCantSell);
+    if (!ownerCantSell) {
+        console.log(ownerCantSell);
+        const element = document.getElementById('ownersell');
+        element.classList.add('hidden');
+        const ownerorder = document.getElementById('ownerorder');
+        ownerorder.classList.add('hidden');
+        // if (element) {
+        //     console.log('blah');
+        //     element.classList.add('hidden');
+        // }
+    }
+        const partsData = parts;
+
+        /*const sellerInfo = [
+            {
+                Name: 'John Doe',
+                Street: '123 Main St',
+                City: 'Everytown',
+                State: 'California',
+                Zip Code: '91888',
+                email: 'john.doe@email.com'
+            },
+        ]*/
+        // generate the parts list HTML
+        function generatePartsListForManager() {
+            const partsListContainer = document.querySelector('.managerContent .partsList');
+
+            partsData.forEach(part => {
+                const partElement = createPartElement(part);
+                partsListContainer.appendChild(partElement);
+            });
+        }
+
+        // Function to generate parts list for Inventory Clerk's view
+        function generatePartsListForInventoryClerk() {
+            const partsListContainer = document.querySelector('.inventoryClerkContent .partsList');
+
+            partsData.forEach(part => {
+                const partElement = createPartElement(part);
+                partsListContainer.appendChild(partElement);
+            });
+        }
+
+         // Function to generate parts list for Inventory Clerk's view
+         function generatePartsListForOwner() {
+            const partsListContainer = document.querySelector('.ownerContent .partsList');
+
+            partsData.forEach(part => {
+                const partElement = createPartElement(part);
+                partsListContainer.appendChild(partElement);
+            });
+        }
+
+        // Create elements for part details
+        function createPartElement(part) {
+            const partElement = document.createElement('div');
+            partElement.className = 'border p-4 mb-4';
+
+            const partDetails = `
+                <h3 class="text-lg font-semibold">Part Number: ${part.partNumber}</h3>
+                <p>Description: ${part.description}</p>
+                <p>Vendor: ${part.vendor}</p>
+                <p>Purchase Order: ${part.purchaseOrder}</p>
+                <p>Cost: ${part.cost}</p>
+                <p>Status: ${part.status}</p>
+                <select id="status${part.partNumber}" onchange="updatePartStatus('${part.partNumber}', '${part.purchaseOrder}', this)">
+                    <option value="Ordered" ${part.status === 'Ordered' ? 'selected' : ''}>Ordered</option>
+                    <option value="Received" ${part.status === 'Received' ? 'selected' : ''}>Received</option>
+                    <option value="Installed" ${part.status === 'Installed' ? 'selected' : ''}>Installed</option>
+                </select>
+            `;
+
+            partElement.innerHTML = partDetails;
+            return partElement;
+        }
+
+        // Call the function to generate parts list based on user's role
+        if (userRole === 'Manager') {
+            generatePartsListForManager();
+        } else if (userRole === 'Inventory Clerk') {
+            generatePartsListForInventoryClerk();
+        } else if (userRole === 'Owner'){
+            generatePartsListForOwner();
+        }
+
+        // Function to update part status
+        function updatePartStatus(partNumber, purchaseOrder, selectElement) {
+            const selectedStatus = selectElement.value;
+
+            // Update the backend or perform any necessary actions based on the selected status
+            console.log(`Updating part ${partNumber} status to: ${selectedStatus}`);
+
+            // Prevent changing status to a previous status
+            const partData = partsData.find(part => part.partNumber === partNumber);
+            if (partData) {
+                if (selectedStatus === 'Ordered') {
+                    selectElement.value = partData.status;
+                } else if (selectedStatus === 'Received' && partData.status === 'Installed') {
+                    selectElement.value = partData.status;
+                } else {
+                    partData.status = selectedStatus;
+                }
+            }
+
+            var updatePartUrl = '/update_part_status?partNumber=' + partNumber + '&purchaseOrder=' + purchaseOrder + '&newStatus=' + partData.status
+
+            fetch(updatePartUrl, {method: 'POST'}).then(response => {
+                if (response.ok) {
+                    console.log('updated status')
+                } else {
+                    // Handle the response if submission fails
+                    console.error('Update Status Failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error occured', error);
+            });
+        }
+        
+        function part_order_url() {
+            var url = (new URL(document.location)).searchParams
+            window.location.href = "parts_order_form?vin=" +  vin_number
+        }
+
+        function sell_vehicle_url() {
+            var url = (new URL(document.location)).searchParams
+            window.location.href = "sell_vehicle?vin=" +  vin_number
+        }
+
+
+        //get seller information from customer table with Vin as foreign key
+        //display seller info under manager and owner view
+    
+        function getSellerInfo() {
+        const seller_url = '/seller_information?vin=' + vin_number
+        fetch(seller_url, {
+                method: 'POST'})
+            .then(response => response.json())
+            .then(data => {
+                displaySellerInfo(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function displaySellerInfo(sellerData) {
+            const sellerInfoContainer = document.getElementById('sellerInfoContainer');
+            sellerInfoContainer.innerHTML = `
+                <h2>Seller Information</h2>
+                <p>Name: ${sellerData.name}</p>
+                <p>Email: ${sellerData.email}</p>
+                <p>Phone Number: ${sellerData.phone_number}</p>
+                <p>Address: ${sellerData.street}, ${sellerData.city}, ${sellerData.state} ${sellerData.zipcode}</p>
+            `;
+        }
+        //run the get seller information function
+        getSellerInfo();
+        
+        const buyer_url = '/buyer_information?vin=' + vin_number
+        function checkBuyerInformation(vin) {
+            fetch(buyer_url, {method: 'POST'})
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.message) {
+                        // Vehicle not sold or buyer information not available
+                        console.log(data.message);
+                    } else {
+                        // Display buyer information if available
+                        displayBuyerInformation(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+        // Function to display buyer information
+        function displayBuyerInformation(buyerInfo) {
+            const buyerDetails = document.getElementById('buyerDetails');
+            buyerDetails.innerHTML = `
+                <h2>Buyer Information</h2>
+                <p>Name: ${buyerInfo.name}</p>
+                <p>Email: ${buyerInfo.email}</p>
+                <p>Phone Number: ${buyerInfo.phone_number}</p>
+                <p>Address: ${buyerInfo.street}, ${buyerInfo.city}, ${buyerInfo.state}, ${buyerInfo.zipcode}</p>
+            `;
+            // Show the buyer information section
+            for (let item of document.getElementsByClassName('buyerInformation')) {
+                item.classList.remove("hidden");
+                console.log(item)
+            }
+        }   
+        checkBuyerInformation(vin);
+
+    </script>
+</body>
+
+</html>

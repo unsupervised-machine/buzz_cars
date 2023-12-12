@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts Order Form | BuzzCars</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+</head>
+
+<body class="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover bg-orange-200">
+    <div class="max-w-3xl mx-auto my-8">
+        <div class="p-4 md:p-12 bg-gray-700 opacity-100">
+            <h1 class="text-3xl font-bold text-white pt-8">Parts Order Form</h1>
+            <div class="w-5/5 pt-3 border-b-2 border-white opacity-50"></div>
+
+            <form action="" method="POST" class="mt-6 text-white">
+                <!-- Parts Order Form Fields -->
+                <div class="mt-4 flex items-center">
+                    <label class="font-bold text-white">Vendor Name:</label>
+                    <input type="text" name="vendorName" id="vendorName"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                    <button type="button" onclick="searchVendor()"
+                        class="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Search
+                        Vendor</button>
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">Part Number:</label>
+                    <input required = "required" type="text" name="partNumber"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">Description:</label>
+                    <textarea required = "required" name="description" rows="3"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900"></textarea>
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">Quantity:</label>
+                    <input required = "required" type="number" name="quantity"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">Cost:</label>
+                    <input required = "required" type="number" name="cost" step="0.01"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">Status:</label>
+                    <select name="status"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+
+                        <option value="Ordered">Ordered</option>
+                        <option value="Received">Received</option>
+                        <option value="Installed">Installed</option>
+                    </select>
+                </div>
+
+                
+                
+                <div id="additionalParts"></div>
+                <div class="mt-4">
+                    <button type="button" onclick="addAnotherPart()"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Another Part</button>
+                </div>
+                <!-- Submit button for Parts Order -->
+                <button type="submit" id="submitorder"
+                    class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit
+                    Parts Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Vendor Form -->
+    <div id="addVendorModal"
+        class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center"
+        style="display: none;">
+        <div class="bg-white bg-gray-600 p-8 rounded-lg">
+            <h1 class="text-3xl font-bold text-white pt-8 lg:pt-0">Add Vendor</h1>
+            <form id="vendorform" action="/submit_vendor" method="POST" onsubmit="closeAddVendorModalOnSubmit(event)">
+                <!-- Input fields for vendor details: vendor name, phone number, street, city, state, zip code -->
+                <div class="mt-4">
+                    <label class="font-bold text-white">Vendor Name:</label>
+                    <input required = "required" type="text" name="vendorName"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">Phone Number:</label>
+                    <input required = "required" type="text" name="phoneNumber"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">Street:</label>
+                    <input required = "required" type="text" name="street"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">City:</label>
+                    <input required = "required" type="text" name="city"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">State:</label>
+                    <input required = "required" type="text" name="state"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+
+                <div class="mt-4">
+                    <label class="font-bold text-white">Zip Code:</label>
+                    <input required = "required" type="text" name="zipCode"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div class="flex justify-center mt-6">
+                <button type="submit"
+                    Class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add
+                    Vendor</button>
+                <button type="button" onclick="closeAddVendorModal()"
+                    class="mt-7 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Close</button>
+
+            </form>
+
+
+        </div>
+        
+        
+    </div>
+
+    <script>
+
+        function openAddVendorModal() {
+            document.getElementById('addVendorModal').style.display = 'flex';
+        }
+
+        function closeAddVendorModal() {
+            document.getElementById('addVendorModal').style.display = 'none';
+        }
+
+        function closeAddVendorModalOnSubmit(event) {
+            // Prevent form submission
+            event.preventDefault();
+
+            // Submit the form using Fetch or XMLHttpRequest to your Flask backend
+            //  '/submit-vendor' place holder for Flask endpoint
+
+            fetch('/submit_vendor', {
+                method: 'POST',
+                body: new FormData(document.getElementById('vendorform'))
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Close the modal on successful submission
+                        closeAddVendorModal();
+
+                        // Get the vendor name from the form
+                        const vendorName = document.getElementById('vendorName').value;
+
+                        // Update the vendor name in the Part Order form
+                        document.getElementById('partOrderVendorName').value = vendorName;
+                    } else {
+                        // Handle the response if submission fails
+                        console.error('Add Vendor submission failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error occured', error);
+                });
+        }
+
+        function searchVendor() {
+            const vendorNameInput = document.getElementById('vendorName');
+            const vendorName = vendorNameInput.value.trim();
+            const vendorURL = `/search_vendor?vendorName=` + vendorName;
+
+            fetch(vendorURL, {method: 'POST'})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.vendorFound) {
+                        // Vendor found in the database, populate the input field
+                        vendorNameInput.value = data.vendorName;
+                    } else {
+                        // Vendor not found, take necessary action (e.g., show popup)
+                        openAddVendorModal();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        let partCounter = 1; // Counter to keep track of added parts
+
+function addAnotherPart() {
+    const additionalPartsDiv = document.getElementById('additionalParts');
+    
+    // Create a div to hold additional part information
+    const partDiv = document.createElement('div');
+    partDiv.className = 'mt-4';
+
+    // Add input fields for additional part information
+    partDiv.innerHTML = `
+        <h2 class="text-lg font-bold text-white mb-2">Part ${partCounter + 1}</h2>
+        <label class="font-bold text-white">Part Number:</label>
+        <input type="text" name="partNumber" class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+        <div class="mt-4">
+                    <label class="font-bold text-white">Description:</label>
+                    <textarea name="description" rows="3"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900"></textarea>
+                </div>
+                <div class="mt-4">
+                    <label class="font-bold text-white">Quantity:</label>
+                    <input type="number" name="quantity"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+                <div class="mt-4">
+                    <label class="font-bold text-white">Cost:</label>
+                    <input type="number" name="cost" step="0.01"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                </div>
+                <div class="mt-4">
+                    <label class="font-bold text-white">Status:</label>
+                    <select name="status"
+                        class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                        <option value="Ordered">Ordered</option>
+                        <option value="Received">Received</option>
+                        <option value="Installed">Installed</option>
+                    </select>
+                </div>
+        <!-- Include a button to remove this specific part if needed -->
+        <button type="button" onclick="removePart(this)" class="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Remove Part</button>
+    `;
+
+    // Append the part information div to the container
+    additionalPartsDiv.appendChild(partDiv);
+
+    partCounter++; // Increment the counter for the next part
+}
+
+function removePart(button) {
+    // Remove the div containing the specific part information
+    button.parentElement.remove();
+}
+        document.getElementById('submitorder').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const partNumber = document.getElementById('partNumber').value;
+            const vendorName = document.getElementById('vendorName').value;
+            const description = document.getElementById('description').value;
+            const quantity = document.getElementById('quantity').value;
+            const status = document.getElementById('status').value;
+            const cost = document.getElementById('cost').value;
+
+            const formData = {
+                partNumber: partNumber,
+                description: description,
+                quantity: quantity,
+                cost: cost,
+                status: status,
+                vendorName: vendorName
+            };
+
+            const part_order_url = window.location.pathname + window.location.search
+
+            fetch(part_order_url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    // Handle success response from the server
+                    console.log(data.message); // Display success message
+                    // You can redirect to another page or perform other actions upon successful submission
+                    window.location.href = 'vehicle_detail'
+                })
+                .catch(error => {
+                    // Handle error case
+                    console.error('There was an error with the fetch operation:', error);
+                });
+        })
+
+    </script>
+
+</body>
+
+</html>

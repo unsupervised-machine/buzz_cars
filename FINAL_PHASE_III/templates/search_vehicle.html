@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Search</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+</head>
+
+<body class="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover bg-orange-200">
+    <div class="max-w-3xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
+        <div
+            class="w-full lg:w-full rounded-lg lg:rounded-l-lg lg:rounded-r-lg flex-wrap shadow-2xl bg-gray-700 opacity-100 mx-6 lg:mx-0">
+            <div class="p-4 md:p-12">
+                <header>
+                    <h1 class="text-3xl font-bold text-white pt-8 lg:pt-0">Vehicle Search</h1>
+
+                    <p class="text-white">Vehicles Available for Purchase: <span
+                            id="availableForPurchaseCount">{{data.total_cars}}</span></p>
+                    <div id="statistics" class="hidden">
+                        <p class="text-white">Vehicles with Parts Pending: <span
+                                id="pendingPartsCount">{{data.total_pending_cars}}</span></p>
+                    </div>
+                    <div id ="loginLink" style="position: absolute; top: 20px; right: 20px;" >
+                        <a href="login" onclick = "redirectToLogin()" target="_blank"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Login</a>
+                    </div>
+                    <div id ="logOut" style="position: absolute; top: 20px; right: 20px;" class="hidden" >
+                        <a onclick = "redirectToLogOut()" target="_self"
+                            class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Log Out</a>
+                    </div> 
+                </header>
+                <div class="mx-auto lg:mx-0 w-5/5 pt-3 border-b-2 border-white opacity-50"></div>
+                <!-- Vehicle Search Input Section -->
+                <form id="searchForm" action="/">
+                    <div id="vinSection" class = "hidden">
+                        <label for="vin" class="text-white">Vin:</label>
+                        <input type="text" id="vin" name="vin"
+                            class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                    </div>
+
+                    <div>
+                        <label for="vehicleType" class="text-white">Vehicle Type:</label>
+                        <select id="vehicleType" name="vehicleType"
+                            class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                            <option value="">Select Vehicle Type</option>
+                            <option value=""></option>
+                            <option value="Sedan">Sedan</option>
+                            <option value="SUV">SUV</option>
+                            <option value="Convertible">Convertible</option>
+                            <option value="Truck">Truck</option>
+                            <option value="Van">Van</option>
+                            <option value="Coupe">Coupe</option>
+                            <option value="Minivan">Minivan</option>
+                            <option value="Other">Other</option>
+
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="manufacturer" class="text-white">Manufacturer:</label>
+                        <select id="manufacturer" name="manufacturer"
+                            class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                            <option disabled selected value></option>
+                            <option value=""></option>
+                            <option value="Acura">Acura</option>
+                            <option value="FIAT">FIAT</option>
+                            <option value="Lamborghini">Lamborghini</option>
+                            <option value="Nio">Nio</option>
+                            <option value="Alfa Romeo">Alfa Romeo</option>
+                            <option value="Ford">Ford</option>
+                            <option value="Land Rover">Land Rover</option>
+                            <option value="Porsche">Porsche</option>
+                            <option value="Aston Martin">Aston Martin</option>
+                            <option value="Geeley">Geeley</option>
+                            <option value="Lexus">Lexus</option>
+                            <option value="Ram">Ram</option>
+                            <option value="Audi">Audi</option>
+                            <option value="Genesis">Genesis</option>
+                            <option value="Lincoln">Lincoln</option>
+                            <option value="Rivian">Rivian</option>
+                            <option value="Bentley">Bentley</option>
+                            <option value="GMC">GMC</option>
+                            <option value="Lotus">Lotus</option>
+                            <option value="Rolls-Royce">Rolls-Royce</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Honda">Honda</option>
+                            <option value="Maserati">Maserati</option>
+                            <option value="smart">smart</option>
+                            <option value="Buick">Buick</option>
+                            <option value="Hyundai">Hyundai</option>
+                            <option value="MAZDA">MAZDA</option>
+                            <option value="Subaru">Subaru</option>
+                            <option value="Cadillac">Cadillac</option>
+                            <option value="INFINITI">INFINITI</option>
+                            <option value="McLaren">McLaren</option>
+                            <option value="Tesla">Tesla</option>
+                            <option value="Chevrolet">Chevrolet</option>
+                            <option value="Jaguar">Jaguar</option>
+                            <option value="Mercedes-Benz">Mercedes-Benz</option>
+                            <option value="Toyota">Toyota</option>
+                            <option value="Chrysler">Chrysler</option>
+                            <option value="Jeep">Jeep</option>
+                            <option value="MINI">MINI</option>
+                            <option value="Volkswagen">Volkswagen</option>
+                            <option value="Dodge">Dodge</option>
+                            <option value="Karma">Karma</option>
+                            <option value="Mitsubishi">Mitsubishi</option>
+                            <option value="Volvo">Volvo</option>
+                            <option value="Ferrari">Ferrari</option>
+                            <option value="Kia">Kia</option>
+                            <option value="Nissan">Nissan</option>
+                            <option value="XPeng">XPeng</option>
+
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="modelYear" class="text-white">Model Year:</label>
+                        <select id="modelYear" name="modelYear" class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+
+                        </select>
+                    </div>
+
+
+                    <div>
+                        <label for="fuelType" class="text-white">Fuel Type:</label>
+                        <select id="fuelType" name="fuelType"
+                            class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                            <option disabled selected value></option>
+                            <option value=""></option>
+                            <option value="Gas">Gas</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Natural Gas">Natural Gas</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Plugin_Hybrid">Plugin Hybrid</option>
+                            <option value="Battery">Battery</option>
+                            <option value="Fuel Cell">Fuel Cell</option>
+
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="color" class="text-white">Color(s):</label>
+                        <select id="color" name="color" multiple
+                            class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                            <option disabled selected value></option>
+                            <option value=""></option>
+                            <option value=1>Aluminum</option>
+                            <option value=2>Beige</option>
+                            <option value=3>Black</option>
+                            <option value=4>Blue</option>
+                            <option value=5>Brown</option>
+                            <option value=6>Bronze</option>
+                            <option value=7>Claret</option>
+                            <option value=8>Copper</option>
+                            <option value=9>Cream</option>
+                            <option value=10>Gold</option>
+                            <option value=11>Gray</option>
+                            <option value=12>Green</option>
+                            <option value=13>Maroon</option>
+                            <option value=14>Metallic</option>
+                            <option value=15>Navy</option>
+                            <option value=16>Orange</option>
+                            <option value=17>Pink</option>
+                            <option value=18>Purple</option>
+                            <option value=19>Red</option>
+                            <option value=20>Rose</option>
+                            <option value=21>Rust</option>
+                            <option value=22>Silver</option>
+                            <option value=23>Tan</option>
+                            <option value=24>Turquoise</option>
+                            <option value=25>White</option>
+                            <option value=26>Yellow</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="keyword" class="text-white">Keyword:</label>
+                        <input type="text" id="keyword" name="keyword"
+                            class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                    </div>
+                    
+                    <div id="filterOptions" class="hidden">
+                        <label for="filterSelect" class="text-white">Filter by:</label>
+                        <select id="filterSelect" name="filterSold"
+                            class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                            <option value="all">All Vehicles</option>
+                            <option value="sold">Sold Vehicles</option>
+                            <option value="unsold">Unsold Vehicles</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-8">
+                        <input type="submit" target="_blank"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            value="Search"></input>
+                    </div>
+
+                    <!--<button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Search</button> -->
+                </form>
+
+                <div id="addVehicleBtn" class="mt-8 hidden">
+                    <a href="add_vehicle"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add
+                        Vehicle</a>
+                </div>
+
+                <div id="viewReportBtn" class="mt-8 hidden">
+                    <a href="general_reports"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">View
+                        Reports</a>
+                </div>
+
+                <div class="mx-auto lg:mx-0 w-5/5 pt-3 border-b-2 border-white opacity-50"></div>
+
+                <div class="search-results">
+                    <p id="searchMessage" class="text-white"></p>
+                    <div id="results"></div>
+
+                    <!-- <div id="filterOptions" class="hidden">
+                        <label for="filterSelect" class="text-white">Filter by:</label>
+                        <select id="filterSelect"
+                            class="block w-full bg-gray-800 text-white border border-gray-700 py-2 px-3 rounded focus:outline-none focus:bg-white focus:text-gray-900">
+                            <option value="all">All Vehicles</option>
+                            <option value="sold">Sold Vehicles</option>
+                            <option value="unsold">Unsold Vehicles</option>
+                        </select>
+                    </div> -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+     
+        function redirectToLogin() {
+        window.location.href = '/login'; // Redirects to the login page
+        }
+        //place holder for checking authentication system for role
+        
+        
+        
+        const userRoles = ['Manager', 'Owner', 'Salesperson', 'Inventory Clerk'];
+
+        var currentUserRole = document.cookie;
+        console.log(document.cookie);
+
+        if (currentUserRole) {
+            currentUserRole = document.cookie.split('=')[1].replace(/['"]+/g, '');
+        }
+      
+         function redirectToLogOut(){
+               const logOutElement = document.getElementById('logOut');
+       const loginLinkElement = document.getElementById('loginLink');
+       const filterOptionsElement = document.getElementById('filterOptions');
+       const statisticsElement = document.getElementById('statistics');
+       const viewReportElement = document.getElementById('viewReportBtn');
+       const addVehicleBtnElement = document.getElementById('addVehicleBtn');
+       const vinSectionElement = document.getElementById('vinSection');
+
+       if (logOutElement) logOutElement.classList.add('hidden');
+       if (loginLinkElement) loginLinkElement.classList.remove('hidden');
+       if (filterOptionsElement) filterOptionsElement.classList.add('hidden');
+       if (statisticsElement) statisticsElement.classList.add('hidden');
+       if (viewReportElement) viewReportElement.classList.add('hidden');
+       if (addVehicleBtnElement) addVehicleBtnElement.classList.add('hidden');
+       if (vinSectionElement) vinSectionElement.classList.add('hidden');
+       currentUserRole = 'default';
+                document.cookie="userrole='default'"
+               window.location.reload();
+           }
+
+        //currentUserRole = "Owner";
+        function displayContentBasedOnRole(role) {
+            const vinSection = document.getElementById('vinSection');
+            const addVehicleBtn = document.getElementById('addVehicleBtn');
+            const statistics = document.getElementById('statistics');
+            const filterOptions = document.getElementById('filterOptions');
+            const logOut = document.getElementById('logOut');
+            const viewReport = document.getElementById('viewReportBtn');
+            
+
+            switch (role) {
+                case 'Inventory Clerk':
+                    logOut.classList.remove('hidden');
+                    addVehicleBtn.classList.remove('hidden');
+                    statistics.classList.remove('hidden');
+                    vinSection.classList.remove('hidden');
+                  
+                    document.getElementById('loginLink').style.display = 'block';
+                    break;
+
+                case 'Manager':
+                    logOut.classList.remove('hidden');
+                    filterOptions.classList.remove('hidden');
+                    statistics.classList.remove('hidden');
+                    viewReport.classList.remove('hidden');
+                  
+                    document.getElementById('loginLink').style.display = 'block';
+                    break;
+
+                case 'Owner':
+                    logOut.classList.remove('hidden');
+                    filterOptions.classList.remove('hidden');
+                    viewReport.classList.remove('hidden');
+                    statistics.classList.remove('hidden');
+                    addVehicleBtn.classList.remove('hidden');
+                
+                    document.getElementById('loginLink').style.display = 'block';
+                    vinSection.classList.remove('hidden');
+                    break;
+
+                case 'Salesperson':
+                document.getElementById('loginLink').classList.add('hidden');
+                    logOut.classList.remove('hidden');
+                    vinSection.classList.remove('hidden');
+                    break;
+
+                default:
+                    // Hide or disable VIN input for other roles
+                    //vinSection.style.display = 'none'; // Hide the VIN input section for other roles
+                    // if (logOutElement) logOutElement.classList.add('hidden');
+                    // if (loginLinkElement) loginLinkElement.classList.remove('hidden');
+                    // if (filterOptionsElement) filterOptionsElement.classList.add('hidden');
+                    // if (statisticsElement) statisticsElement.classList.add('hidden');
+                    // if (viewReportElement) viewReportElement.classList.add('hidden');
+                    // if (addVehicleBtnElement) addVehicleBtnElement.classList.add('hidden');
+                    // if (vinSectionElement) vinSectionElement.classList.add('hidden');
+                    break;
+            }
+        }
+        displayContentBasedOnRole(currentUserRole);
+
+        
+        const currentYear = new Date().getFullYear();
+
+        // Get the select element
+        const selectElement = document.getElementById('modelYear');
+
+        const blankOption = document.createElement('option');
+        blankOption.value = ''; // Set value as empty string or any value that suits your logic
+        blankOption.textContent = 'Select Year'; // Text displayed for the blank option
+        selectElement.appendChild(blankOption);
+        // Set the options dynamically from 1955 to current year + 1
+        for (let year = 1955; year <= currentYear + 1; year++) {
+            const option = document.createElement('option');
+            option.value = year.toString();
+            option.textContent = year.toString();
+            selectElement.appendChild(option);
+        }
+
+        // JavaScript code for search functionality 
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            // ... (existing search functionality code)
+        });
+
+        // Show/hide sections based on the current user's role
+        /*userRoles.forEach(role => {
+            const section = document.getElementById(`${role.toLowerCase()}Section`);
+            if (section) {
+                if (role === currentUserRole) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            }
+        });
+        */
+        // document.getElementById('searchForm').addEventListener('submit', function(event) {
+        //     event.preventDefault();
+
+        //     const formData = new FormData(this);
+
+        //     fetch('/search', {
+        //         method: 'POST',
+        //         body: formData
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         if (data.length > 0) {
+        //             const vehicle = data[0]; // Assuming the first item contains the vehicle details
+        //             const queryParams = new URLSearchParams({
+        //                 'vin': vehicle.vin,
+        //                 'vehicleType': vehicle.vehicleType,
+        //                 'modelYear': vehicle.modelYear,
+        //                 'manufacturer': vehicle.manufacturer,
+        //                 'model': vehicle.model,
+        //                 'fuelType': vehicle.fuelType,
+        //                 'colors': vehicle.colors.join(', '), // If colors are an array, join them
+        //                 'mileage': vehicle.mileage,
+        //                 'salesPrice': vehicle.salesPrice
+        //             });
+
+        //             window.location.href = `/vehicle_detail.html?${queryParams.toString()}`;
+        //         } else {
+        //             document.getElementById('searchMessage').innerText = 'No vehicles found';
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
+        // });
+
+        // return search result as list with link to vehicle detailed page. Vin is passed in as foreign key to retrieve vehicle detail
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const resultsContainer = document.getElementById('results');
+
+                    if (data.length > 0) {
+                        resultsContainer.innerHTML = ''; // Clear previous results
+
+                        data.forEach(vehicle => {
+                            const vehicleLink = document.createElement('a');
+                            vehicleLink.href = `/vehicle_detail?vin=${vehicle.vin}`; // Link to detail page with vehicle VIN
+                            vehicleLink.classList.add('block', 'text-white', 'mb-2');
+                            vehicleLink.textContent = `${vehicle.manufacturer} ${vehicle.model}, Year: ${vehicle.modelYear}, VIN: ${vehicle.vin}, Fuel Type: ${vehicle.fueltype}, Color(s): ${vehicle.color}, mileage: ${vehicle.mileage}, sales price: ${vehicle.salesprice}`;
+                            vehicleLink.addEventListener('click', function(event) {
+                            event.preventDefault(); // Prevent the default behavior (opening link in a new tab)
+
+                            // Navigate to the vehicle detail page
+                            window.location.href = vehicleLink.href;
+                        });
+                            resultsContainer.appendChild(vehicleLink);
+                        });
+                    } else {
+                        resultsContainer.innerHTML = 'No vehicles found';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+            
+
+    </script>
+</body>
+
+</html>

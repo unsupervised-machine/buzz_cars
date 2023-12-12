@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vehicle | BuzzCars</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+
+</head>
+<body class="font-sans antialiased text-gray-100 bg-orange-200">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} text-red-500	 font-bold p-2 text-xl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <div class="flex grid grid-cols-2 p-4 gap-x-10">
+        <!-- CUSTOMER COLUMN-->
+        <div class="w-5/5 bg-gray-700 opacity-100 p-2"> 
+            <h1 class = "text-3xl font-bold text-white text-center p-4"> Search / Add Customer </h1>
+            <!-- SEARCH BAR -->
+            <form action="/sell_vehicle" method = "GET">
+                <div class="grid grid-cols-2 items-baseline p-4"> 
+                    <label class="text-white" for="search_customerID">Search Customer ID</label>
+                    <input class="text-black text-center" type="text" placeholder="Customer ID" name="search_customerID">
+                </div>
+
+                <div class="box pb-12 p-4">
+                    <a href={{url_for('sell_vehicle')}} class="float-right bg-teal-700 hover:bg-teal-900
+                    text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                        <button > Submit </button>
+                    </a>
+                </div>
+            </form>
+             <!-- END SEARCH BAR-->
+
+              <!-- START TABLE -->  
+            <table class="" border = 1>
+                <thead class=""> 
+                    <tr class="">
+                        <th class="py-2 px-2"> Customer ID </th>
+                        <th class="py-2 px-2"> Name </th>
+                        <th class="py-2 px-2"> Email </th>
+                        <th class="py-1 px-2"> Phone Number </th>
+                        <th class="py-2 px-2"> Street </th>
+                        <th class="py-2 px-2"> City </th>
+                        <th class="py-2 px-2"> State </th>
+                        <th class="py-2 px-2"> Zip Code </th>
+                    </tr>
+                </thead>
+                {% for attribute in customer_info %}
+                <tr class="absolute-center">
+                    <td> {{attribute[0]}}</td>
+                    <td> {{attribute[1]}}</td>
+                    <td> {{attribute[2]}}</td>
+                    <td> {{attribute[3]}}</td>
+                    <td> {{attribute[4]}}</td>
+                    <td> {{attribute[5]}}</td>
+                    <td> {{attribute[6]}}</td>
+                    <td> {{attribute[7]}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <!-- END TABLE -->
+
+            <!-- BUTTONS-->
+            <div class="box p-4 pt-12">
+                <a href={{url_for('add_individual')}} class="bg-teal-700 hover:bg-teal-900
+                text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                    <button > Add Individual</button>
+                </a>
+            </div>
+        
+            <div class="box p-4">
+                <a href={{url_for('add_business')}} class="bg-teal-700 hover:bg-teal-900
+                text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                    <button > Add Business</button>
+                </a>
+            </div>
+
+            <div class="box p-4">
+                <a href={{url_for('search_vehicle')}} class="bg-teal-700 hover:bg-teal-900
+                text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                    <button > Back to Home Page</button>
+                </a>
+            </div>
+            <!-- END BUTTONS -->
+        </div>
+       
+        <!-- VEHICLE COLUMN-->
+        <div class="w-4/5 bg-gray-700 opacity-100 p-2"> 
+            <h1 class = "text-3xl font-bold text-white text-center p-4"> Sell Vehicle </h1>
+
+            <form class="p-4 md:p-12 text-left" method ="POST" action="sell_vehicle" id="form2">
+
+                <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                    <label class="text-white" for="buyerID">Customer:</label>
+                    <input required="required"  class="text-center text-black" type="text" placeholder="Customer ID" name = "buyerID">
+                </div>
+
+                <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                    <label class="text-white" for="vin">VIN:</label>
+                    <input required="required"  class="text-center text-black" type="text" placeholder="VIN" name = "vin">
+                </div>
+
+                <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                    <label class="text-white" for="salesDate">Sale Date:</label>
+                    <input required="required"  class="text-center text-black" type="date" placeholder="" name = "salesDate" id="purchase_date_input">
+                </div>
+
+                <div class="pt-2 text-white space-y-1 grid grid-cols-2 items-baseline"> 
+                    <label class="text-white" for="username">Salesperson</label>
+                    <input required="required"  class="text-center text-black" type="text" placeholder="Username" name="username">
+                </div>
+
+            <div class="pt-8 pb-9 grid grid-cols-2">
+                <label class="text-white" for="Add"> </label>
+                <input type="Submit" class="bg-teal-700 hover:bg-teal-900
+                text-white text-center font-bold py-2 px-4 rounded_full" />
+            </div>
+            </form>
+
+        
+    </div>
+
+    <script>
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('purchase_date_input').setAttribute('max', today);
+    </script>
+
+</body>
+</html>

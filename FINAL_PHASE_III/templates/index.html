@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | BuzzCars</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+</head>
+<body class="flex font-sans antialiased text-gray-100 bg-orange-200 p-8 justify-center">
+
+        <!-- content column-->
+        <div class="w-full lg:w-3/5 shadow-2xl bg-gray-900 opacity-100 mx-6 lg:mx-0">
+            <!-- inner column-->
+            <form class="p-4 md:p-12 text-center" method ="POST" action="/login">
+                <div>
+                    <h1 class="text-3xl font-bold text-white pt-8 lg:pt-0">
+                        BuzzCars Login
+                    </h1>
+                    <div class="mx-auto lg:mx-0 w-5/5 pt-3 border-b-2
+                    border-white opacity-50">
+                    </div>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} text-red-500 font-bold p-2 text-l">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <div class="pt-5 text-black space-y-2"> 
+                        <!-- username text and button-->
+                        <label class="text-white" for="Username">Username</label>
+                        <input required="required" type="text" placeholder="Username" name="username">
+                    </div>
+                        <!-- password text and button-->
+                    <div class="pt-5 text-black space-y-2">
+                        <label class="text-white" for="Password">Password</label>
+                        <input required="required" type="password" name="password" placeholder="Password" >
+                    </div>
+
+                    <div class="pt-8 pb-9">
+                        <input type="submit" class="bg-teal-700 hover:bg-teal-900
+                        text-white font-bold py-2 px-4 rounded_full">
+                    </div>
+                </div>
+            </form>
+        </div>
+    
+</body>
+</html>

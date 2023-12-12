@@ -1,0 +1,52 @@
+<!-- 
+    -for this to format correctly, it has to be opened through running the Flask App so the db info is retrieved
+     and displayed
+    -this can be made to look prettier if anyone wants to mess with it
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Monthly Sales Report | BuzzCars </title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+</head>
+
+<body class="flex font-sans antialiased text-gray-100 bg-orange-200 p-8 justify-center"">    
+    <div class="flex bg-gray-700 p-6" >
+        <table border = 1>
+            <thead> 
+                <tr>
+                    <th class="py-2 px-4"> Year </th>
+                    <th class="py-2 px-4"> Month </th>
+                    <th class="py-1 px-4"> Vehicles Sold </th>
+                    <th class="py-2 px-4"> Total Sales Income </th>
+                    <th class="py-2 px-4"> Total Net Income </th>
+
+                </tr>
+            </thead>
+            {% for attribute in sales %}
+            <tr class="absolute-center">
+                <td class="py-1 px-6"> {{attribute[0]}}</td>
+                <td class="py-1 px-6"> {{attribute[1]}}</td>
+                <td class="py-1 px-6"> {{attribute[2]}}</td>
+                <td class="py-1 px-6"> {{attribute[3]}}</td>
+                <td class="py-1 px-6"> {{attribute[4]}}</td>
+            </tr>
+            {% endfor %}
+            <caption class="text-2xl font-bold">
+                Monthly Sales Report
+               </caption>
+        </table>
+
+        <!-- Button back to reports options page -->
+        <div class="box p-4">
+            <a href={{url_for('reports_buttons')}} class="bg-teal-700 hover:bg-teal-900
+            text-white text-center font-bold py-2 px-4 rounded_full"  target="">
+                <button > Back </button>
+            </a>
+        </div>
+
+    </div>
+</body>
